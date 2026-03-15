@@ -62,7 +62,7 @@ for file in $STAGED_FILES; do
   fi
 
   # Get added lines for this file
-  ADDED_LINES=$(git diff --cached -U0 -- "$file" 2>/dev/null | grep '^\+' | grep -v '^\+\+\+' || true)
+  ADDED_LINES=$(git diff --cached -U0 -- "$file" 2>/dev/null | grep '^\+' | grep -v '^+++' || true)
 
   if [[ -z "$ADDED_LINES" ]]; then
     continue
