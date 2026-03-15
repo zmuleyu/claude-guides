@@ -1,0 +1,16 @@
+[project]
+name = "claude-guard"
+version = "1.0.0"
+description = "Security audit & backup tool for Claude Code users"
+requires-python = ">=3.11"
+dependencies = [
+    "click>=8.1",
+    "rich>=13.0",
+]
+
+[project.scripts]
+claude-guard = "cli:main"
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
