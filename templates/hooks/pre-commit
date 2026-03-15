@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+# Global pre-commit hook: detect API key leaks in staged files
+# Installed via: git config --global core.hooksPath ~/.git-hooks
+# To bypass (emergency only): git commit --no-verify
+
+set -euo pipefail
+
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+# Secret patterns: name|regex
+PATTERNS=(
+  "Anthropic API Key|sk-ant-api03-[A-Za-z0-9_-]{20,}"
+  "OpenAI API Key|sk-proj-[A-Za-z0-9_-]{20,}"
+  "OpenAI Legacy Key|sk-[A-Za-z0-9]{48,}"
+  "GitHub PAT (classic)|ghp_[A-Za-z0-9]{36}"
+  "GitHub OAuth Token|gho_[A-Za-z0-9]{36}"
+  "GitHub Fine-grained PAT|github_pat_[A-Za-z0-9_]{22,}"
+  "Supabase Key|sbp_[A-Za-z0-9]{40,}"
+  "Private Key|-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+  "AWS Access Key|AKIA[0-9A-Z]{16}"
+)
+
+# Load whitelist from .secretsignore in repo root (if exists)
+IGNORE_PATTERNS=()
+if [[ -f ".secretsignore" ]]; then
+  while IFS= read -r line; do
+    [[ -z "$line" || "$line" == \#* ]] && continue
+    IGNORE_PATTERNS+=("$line")
+  done < ".secretsignore"
+fi
+
+should_ignore() {
+  local file="$1"
+  for pattern in "${IGNORE_PATTERNS[@]+"${IGNORE_PATTERNS[@]}"}"; do
+    # shellcheck disable=SC2053
+    if [[ "$file" == $pattern ]]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+FOUND=0
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null || echo "")
+
+if [[ -z "$STAGED_FILES" ]]; then
+  exit 0
+fi
+
+for file in $STAGED_FILES; do
+  # Skip binary files
+  if git diff --cached --numstat -- "$file" 2>/dev/null | grep -q "^-"; then
+    continue
+  fi
+
+  # Skip whitelisted files
+  if should_ignore "$file"; then
+    continue
+  fi
+
+  # Get added lines for this file
+  ADDED_LINES=$(git diff --cached -U0 -- "$file" 2>/dev/null | grep '^\+' | grep -v '^\+\+\+' || true)
+
+  if [[ -z "$ADDED_LINES" ]]; then
+    continue
+  fi
+
+  for entry in "${PATTERNS[@]}"; do
+    IFS='|' read -r name regex <<< "$entry"
+    MATCHES=$(echo "$ADDED_LINES" | grep -E "$regex" 2>/dev/null || true)
+    if [[ -n "$MATCHES" ]]; then
+      echo -e "${RED}[SECRET DETECTED]${NC} ${YELLOW}${name}${NC} in ${file}" >&2
+      echo "$MATCHES" | head -3 | while IFS= read -r line; do
+        echo -e "  ${RED}>${NC} ${line:0:120}" >&2
+      done
+      FOUND=1
+    fi
+  done
+done
+
+if [[ $FOUND -eq 1 ]]; then
+  echo "" >&2
+  echo -e "${RED}Commit blocked: secrets detected in staged files.${NC}" >&2
+  echo -e "Add patterns to ${YELLOW}.secretsignore${NC} to whitelist false positives." >&2
+  exit 1
+fi
