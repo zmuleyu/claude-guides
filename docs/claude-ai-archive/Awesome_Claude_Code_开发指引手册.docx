@@ -1,0 +1,404 @@
+**AWESOME CLAUDE CODE**
+
+Claude Code 生态系统梳理与分阶段开发指引
+
+基于 github.com/hesreallyhim/awesome-claude-code 仓库梳理
+
+★ 23.5k Stars · 1.4k Forks · CC BY-NC-ND 4.0 License
+
+版本: 2026年3月 · 由 Claude 生成
+
+**第一部分：生态系统总览**
+
+Awesome Claude Code 是目前最具影响力的 Claude Code
+社区资源库，汇聚了技能、钩子、斜杠命令、编排器、应用程序和插件等丰富资源。本文档将该仓库内容梳理为体系化的知识架构，并提供从入门到精通的分阶段开发指引。
+
+**七大核心分类梳理**
+
+整个 Awesome Claude Code 生态系统可以归纳为以下七大核心领域：
+
+  ------------------ -------------------------------------------- --------------------------
+  **分类**           **核心内容**                                 **代表项目**
+
+  ① Agent Skills     为 Claude Code                               Superpowers, Everything
+                     赋予特定能力的配置文件、脚本和资源           Claude Code, Trail of Bits
+                                                                  Security Skills
+
+  ② Workflows        工作流和知识指南，包括项目管理和开发方法论   Simone, AB Method, RIPER
+                                                                  Workflow, Claude Code
+                                                                  Ultimate Guide
+
+  ③ Tooling          基于 Claude Code 构建的工具应用，包括        Claude Squad, Claude
+                     IDE、监控和编排器                            Swarm, ccflare, Crystal
+
+  ④ Hooks            在 Claude 的代理生命周期中触发的自定义脚本   TDD Guard, Claudio,
+                                                                  claude-hooks, Britfix
+
+  ⑤ Slash Commands   按领域分类的自定义斜杠命令库                 /commit, /tdd, /prime,
+                                                                  /create-pr, /todo
+
+  ⑥ CLAUDE.md        项目上下文文件，按语言和领域分类             Metabase, LangGraphJS,
+                                                                  HASH, Inkline
+
+  ⑦ 辅助资源         Output Styles、状态栏、替代客户端等          ccstatusline, Claudable,
+                                                                  Omnara
+  ------------------ -------------------------------------------- --------------------------
+
++-----------------------------------------------------------------------+
+| **关键洞察**                                                          |
+|                                                                       |
+| 这个生态系统的核心逻辑是"分层增强"：从 CLAUDE.md 提供项目上下文，到   |
+| Slash Commands 自动化重复任务，到 Hooks 在关键时刻介入，到 Agent      |
+| Skills 赋予专业能力，再到 Workflows                                   |
+| 串联整个开发流程。每一层都是上一层的自然延伸。                        |
++-----------------------------------------------------------------------+
+
+**第二部分：分阶段开发指引**
+
+以下指引将 Awesome Claude Code
+的资源组织为四个递进阶段，每个阶段都建立在前一阶段的基础上。
+
++-----------------------------------------------------------------------+
+| **PHASE 1**                                                           |
+|                                                                       |
+| **基础搭建期：建立上下文与规范**                                      |
+|                                                                       |
+| *目标：让 Claude Code 理解你的项目，并建立基本开发规范。预计 1-2      |
+| 天。*                                                                 |
++-----------------------------------------------------------------------+
+
+**1.1 编写高质量的 CLAUDE.md**
+
+CLAUDE.md 是 Claude Code 的"记忆中心"，它帮助 Claude
+理解你的项目架构、编码规范和技术栈。好的 CLAUDE.md
+文件应该简洁但信息丰富。
+
+**学习资源：**
+
+-   **Metabase CLAUDE.md** --- Clojure/ClojureScript
+    项目的典范，展示了如何文档化 REPL 驱动开发工作流
+
+-   **pre-commit-hooks** --- 被评价为"不对 Claude
+    大喊大叫"的典范，简洁表达却信息量充足
+
+-   **SteadyStart** --- 清晰地定义了 Claude
+    的角色、权限、沟通风格和会话文档化要求
+
+-   **LangGraphJS** --- TypeScript monorepo 项目的模板，yarn workspaces
+    架构文档化示例
+
+**实践要点：**
+
+-   项目概述：技术栈、架构决策、核心依赖
+
+-   构建和测试命令：完整的命令行指令
+
+-   代码风格规则：命名规范、格式化要求、错误处理模式
+
+-   重要原则：简洁而不冗长，指导而非命令，避免全大写"吸喊"式写法
+
+**1.2 安装必备工具**
+
+-   **Claude Code CLI** --- 确保已安装并配置完成
+
+-   **Claude Code Templates** (Daniel Avila) ---
+    提供了跨全分类的一站式资源集，配备用量看板和分析
+
+-   **ccexp** --- 发现和管理 Claude Code 配置文件的交互式 CLI 工具
+
+**1.3 学习资源推荐**
+
+-   **Claude Code Ultimate Guide** (Florian BRUNIAUX) ---
+    从新手到高手的全面指南，包含测验和快速参考卡
+
+-   **Claude Code Tips** (ykdojo) --- 35+
+    条实用技巧，覆盖语音输入、容器工作流等
+
+-   **Learn Claude Code** (shareAI-Lab) --- 解构 Claude Code
+    的设计原理，用最少代码重建编码代理
+
+-   **Claude Code System Prompts** (Piebald AI) --- Claude Code
+    系统提示词全集，每版更新
+
++-----------------------------------------------------------------------+
+| **阶段交付物**                                                        |
+|                                                                       |
+| ✅ 完成一个结构化的 CLAUDE.md 文件，包含项目架构、构建命令、代码规范  |
+| ✅ 熟悉 Claude Code CLI 基本操作和官方文档                            |
++-----------------------------------------------------------------------+
+
++-----------------------------------------------------------------------+
+| **PHASE 2**                                                           |
+|                                                                       |
+| **效率提升期：自动化重复任务**                                        |
+|                                                                       |
+| *目标：用 Slash Commands 和 Hooks                                     |
+| 消除重复劳动，建立标准化开发循环。预计 3-5 天。*                      |
++-----------------------------------------------------------------------+
+
+**2.1 引入 Slash Commands**
+
+Slash Commands 是精心定制的提示词，用于控制 Claude
+的行为来执行特定任务。它们按功能分为六个领域：
+
+  ------------------------ ----------------------------------------------
+  **领域**                 **推荐命令与说明**
+
+  版本控制 / Git           /commit - 规范化提交；/create-pr - 自动化 PR
+                           创建；/fix-pr - 自动修复 PR 评审意见
+
+  代码分析 / 测试          /check - 全面代码质量扫描；/tdd - TDD
+                           红绿重构循环；/optimize - 性能瓶颈分析
+
+  上下文加载               /prime - 项目上下文初始化；/load-llms-txt -
+                           加载 LLM 配置；/rsi - 读取全部命令和关键文件
+
+  文档与日志               /create-docs -
+                           自动生成文档；/add-to-changelog -
+                           规范化变更日志
+
+  CI / 部署                /run-ci - CI 全流程自动化；/release -
+                           版本发布管理
+
+  项目管理                 /create-plan - PRD 生成；/todo -
+                           快速任务管理；/do-issue - GitHub Issue 开发流
+  ------------------------ ----------------------------------------------
+
+**2.2 配置 Hooks 自动化**
+
+Hooks 允许你在 Claude 的代理生命周期的不同节点触发自定义脚本。
+
+  ------------------------ ----------------------------------------------
+  **工具名称**             **功能说明**
+
+  TDD Guard                监控文件操作，实时阻止违反 TDD 原则的修改
+
+  Claudio                  为 Claude Code 添加悦耳的系统声音提示
+
+  Britfix                  自动将美式英语转换为英式英语，智能识别代码 vs
+                           注释
+
+  CC Notify                桌面通知，当任务完成或需要输入时提醒
+
+  TypeScript Quality Hooks 自动 ESLint、Prettier、TS 编译检查，\<5ms 性能
+
+  claude-hooks (SDK)       基于 TypeScript 的强大 Hooks 配置框架
+  ------------------------ ----------------------------------------------
+
++-----------------------------------------------------------------------+
+| **阶段交付物**                                                        |
+|                                                                       |
+| ✅ 配置 5-10 个常用 Slash Commands ✅ 启用至少 2 个                   |
+| Hooks（如代码质量检查和通知） ✅ 建立标准化的 commit 和 PR 工作流     |
++-----------------------------------------------------------------------+
+
++-----------------------------------------------------------------------+
+| **PHASE 3**                                                           |
+|                                                                       |
+| **能力深化期：Agent Skills 与工作流**                                 |
+|                                                                       |
+| *目标：赋予 Claude Code 专业能力，建立完整的项目开发工作流。预计 1-2  |
+| 周。*                                                                 |
++-----------------------------------------------------------------------+
+
+**3.1 配置 Agent Skills**
+
+Agent Skills 是模型控制的配置，使 Claude Code
+能够执行需要特定知识的专业任务。以下是按场景分类的推荐：
+
+**通用开发能力：**
+
+-   **Superpowers** (Jesse Vincent) ---
+    覆盖规划、审查、测试、调试的工程最佳实践合集
+
+-   **Everything Claude Code** (Affaan Mustafa) ---
+    覆盖"几乎所有"工程领域的高质量资源
+
+-   **Fullstack Dev Skills** (jeffallan) --- 65 个专业技能 +
+    /common-ground 命令揭示 Claude 的隐藏假设
+
+-   **Context Engineering Kit** (NeoLabHQ) --- 最小化 token
+    占用的高级上下文工程技术
+
+**专业领域能力：**
+
+-   **Trail of Bits Security Skills** --- 超过 12 个安全审计技能，包含
+    CodeQL 和 Semgrep
+
+-   **cc-devops-skills** --- DevOps 工程师的详细 IaC 代码生成技能
+
+-   **read-only-postgres** --- 安全的只读 PostgreSQL 查询技能
+
+-   **Book Factory** --- 复制传统出版基础设施的非虚构书籍创作管线
+
+**3.2 建立开发工作流**
+
+工作流是紧密耦合的 Claude Code 原生资源套件，专为特定项目场景设计。
+
+  ------------------------ ----------------------------------------------------------
+  **工作流**               **特点与适用场景**
+
+  AB Method                规范驱动，将大问题分解为专注的增量任务，适合复杂特性开发
+
+  RIPER Workflow           强制分离 Research/Innovate/Plan/Execute/Review
+                           五阶段，适合系统化开发
+
+  Simone                   完整项目管理系统，包含文档、指南和流程
+
+  Claude Code PM           功能丰富的项目管理工作流，多代理和专业命令
+
+  ContextKit               4 阶段规划方法论 + 质量代理，帮助首次生成生产就绪的代码
+  ------------------------ ----------------------------------------------------------
+
+**3.3 Ralph Wiggum 自动化循环**
+
+Ralph Wiggum 是一种创新的 AI
+编码技术，在自动化循环中运行代理直到规格实现。生态系统提供了多个实现：
+
+-   **Ralph for Claude Code** --- 完整框架，含智能退出检测和安全护栏
+
+-   **ralph-orchestrator** --- 被 Anthropic 官方文档引用的编排器实现
+
+-   **The Ralph Playbook** --- 详细的理论解说 + 实践指南
+
++-----------------------------------------------------------------------+
+| **阶段交付物**                                                        |
+|                                                                       |
+| ✅ 根据项目需求配置 2-3 个专业 Skills ✅ 选择并落地一个完整工作流（如 |
+| AB Method 或 RIPER） ✅ 尝试 Ralph 自动化循环用于简单任务             |
++-----------------------------------------------------------------------+
+
++-----------------------------------------------------------------------+
+| **PHASE 4**                                                           |
+|                                                                       |
+| **规模化运营期：多代理编排与团队協作**                                |
+|                                                                       |
+| *目标：实现多代理并行开发、费用监控、团队工作流。持续演进。*          |
++-----------------------------------------------------------------------+
+
+**4.1 多代理编排器**
+
+当项目规模增大时，多代理并行开发能显著提升效率。
+
+  ------------------------ ----------------------------------------------
+  **编排器**               **特点**
+
+  Claude Squad             终端应用，管理多个独立工作区的 Claude Code
+                           实例，支持 Aider 等
+
+  Claude Swarm             启动连接到代理集群的 Claude Code 会话
+
+  Container Use (Dagger)   为编码代理提供隔离的 Docker
+                           环境，多代理安全并行
+
+  TSK                      Rust CLI 工具，在沙箱化 Docker 环境中运行 AI
+                           代理，返回 git 分支
+
+  Happy Coder              手机/桌面控制多个并行 Claude
+                           Code，支持推送通知
+
+  Claude Code Flow         代码优先的编排层，递归代理循环自主开发
+  ------------------------ ----------------------------------------------
+
+**4.2 费用与用量监控**
+
+规模化使用后费用控制至关重要。推荐工具：
+
+-   **ccflare / better-ccflare** --- 专业级用量仪表盘，精美 Web
+    UI，全面指标
+
+-   **CC Usage** --- 基于本地日志的 CLI 分析工具，成本和 token 消耗看板
+
+-   **Claude Code Usage Monitor** --- 实时终端监控，显示燃烧率和耗尽预测
+
+-   **Claudex** --- Web 版对话历史浏览器 + 全文搜索 + 分析
+
+-   **Vibe-Log** --- 智能会话分析 + 策略指导，生成 HTML 报告
+
+**4.3 IDE 集成与替代客户端**
+
+-   **Claude Code Chat** --- VS Code 内的优雅聊天界面
+
+-   **claude-code.nvim** --- Neovim 无缝集成
+
+-   **crystal** --- 桌面应用，编排和监控 Claude Code 代理
+
+-   **Omnara** --- 跨终端/Web/移动端同步，支持团队协作
+
+-   **Claudable** --- 利用本地 CLI 代理构建和部署产品的 Web 构建器
+
++-----------------------------------------------------------------------+
+| **阶段交付物**                                                        |
+|                                                                       |
+| ✅ 部署至少一个多代理编排器 ✅ 配置费用监控仪表盘 ✅ 选择 IDE         |
+| 集成方案，实现无缝开发体验 ✅ 建立团队级别的工作流规范                |
++-----------------------------------------------------------------------+
+
+**第三部分：技术地图与快速参考**
+
+**开发场景快速查找表**
+
+根据你的具体场景，快速定位最合适的资源：
+
+  ------------------------ ----------------------------------------------
+  **场景**                 **推荐方案**
+
+  独立开发者快速上手       CLAUDE.md + Claude Code Ultimate Guide + 5-10
+                           个 Slash Commands
+
+  全栈开发项目             Fullstack Dev Skills + AB Method + /tdd +
+                           /create-pr
+
+  安全审计                 Trail of Bits Security Skills + /check + TDD
+                           Guard
+
+  DevOps / IaC             cc-devops-skills + Claude Codex Settings +
+                           /run-ci
+
+  大型项目管理             Simone + Claude Code PM + Claude Squad +
+                           ccflare
+
+  自动化任务处理           Ralph for Claude Code + ralph-orchestrator +
+                           Container Use
+
+  团队协作                 Omnara + Claude Hub + Claude Code GitHub
+                           Actions
+
+  成本控制                 better-ccflare + CC Usage + Claude Code Usage
+                           Monitor
+  ------------------------ ----------------------------------------------
+
+**核心实践原则**
+
+1.  **渐进式采纳：**不要一次性安装所有工具，按阶段逐步引入，让每个工具都充分融入工作流
+
+2.  **CLAUDE.md 优先：**这是所有效率提升的基础，花时间写好它会持续回报
+
+3.  **上下文工程：**缩小每次交互的范围，减少 token 消耗，提高输出质量
+
+4.  **安全护栏：**使用 Container Use 或 Docker
+    沙箱运行具有风险的操作，避免 \--dangerously-skip-permissions
+
+5.  **费用意识：**从一开始就监控 token 消耗，避免规模化后的成本失控
+
+6.  **社区参与：**通过 GitHub Issues 推荐资源，通过 Discussions 交流经验
+
+**官方文档入口**
+
+-   **Anthropic Documentation** --- docs.claude.com --- 官方完整文档
+
+-   **Claude Code GitHub Actions** --- CI/CD 集成示例和文档
+
+-   **Anthropic Quickstarts** --- 官方快速入门指南
+
+-   **Claude Code Documentation Mirror** (Eric Buess) ---
+    每小时更新的文档镜像
+
+-   **claude-code-docs** (Constantin Shafranski) ---
+    带全文搜索的文档镜像
+
+*--- End of Guide ---*
+
+数据来源：github.com/hesreallyhim/awesome-claude-code
+
+★ 23.5k \| License: CC BY-NC-ND 4.0 \| 本指引生成日期: 2026年3月
